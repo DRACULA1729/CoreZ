@@ -1,2 +1,2 @@
 # CoreZ
-This is a simple Antivirus made using Python.
+This is a simple Antivirus software made using Python.
