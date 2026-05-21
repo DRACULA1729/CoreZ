@@ -39,8 +39,9 @@ def switch():
 		is_on = True
 
 # Define Our Images
-on = PhotoImage(file = "on.png")
-off = PhotoImage(file = "off.png")
+# TODO: replace placeholders with real on/off icon paths before running
+on = PhotoImage(file = "<TODO: path/to/on.png>")
+off = PhotoImage(file = "<TODO: path/to/off.png>")
 
 # Create A Button
 on_button = Button(root, image = on, bd = 0,

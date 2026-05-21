@@ -1,7 +1,11 @@
 import os
+import sys
+import subprocess
 from tkinter import *
 import tkinter as tk
 from tkinter.ttk import Progressbar
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Create a main window
 root = tk.Tk()
@@ -11,7 +15,7 @@ root.title("Boosting RAM...")
 root.geometry("600x400")
 
 # Load the background image
-bg = PhotoImage(file="images/background.png")
+bg = PhotoImage(file=os.path.join(SCRIPT_DIR, "images", "background.png"))
 
 # Create a label to display the background image
 label = Label(root, image=bg)
@@ -46,7 +50,7 @@ def show_success_dialog():
     success_dialog.geometry("600x400")  # Same size as the main window
 
     # Load the same background image
-    bg_success = PhotoImage(file="images/background.png")
+    bg_success = PhotoImage(file=os.path.join(SCRIPT_DIR, "images", "background.png"))
 
     # Create a label to display the background image
     bg_label = Label(success_dialog, image=bg_success)
@@ -65,7 +69,10 @@ def show_success_dialog():
 def go_to_main_menu(dialog):
     dialog.destroy()  # Close the success dialog
     root.destroy()    # Close the main window completely
-    os.system('python mainWindow.py')  # Open the main menu
+    subprocess.Popen(
+        [sys.executable, os.path.join(SCRIPT_DIR, "mainWindow.py")],
+        cwd=SCRIPT_DIR,
+    )
     
 # Function to update the progress bar and percentage
 def update_progress():

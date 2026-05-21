@@ -1,11 +1,16 @@
 from tkinter import *
 import os
+import sys
+import subprocess
 from tkinter.ttk import Progressbar
 from tkinter import ttk
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 loading = Tk()
 loading.geometry("600x400+400+150")
 loading.resizable(0,0)
-bg = PhotoImage(file="Images/Intro.png", master=loading)
+bg = PhotoImage(file=os.path.join(SCRIPT_DIR, "Images", "Intro.png"), master=loading)
 label_image = Label(loading, image=bg).pack()
 progress_label = Label(loading, text="Loading....", font=('Comic Sans MS', 13, 'bold'), fg='#14183C', bg='#EFF0F6' )
 progress_label.place(x=20, y=294)
@@ -24,7 +29,7 @@ loading.wm_attributes("-disabled", True)
 
 def top():
     loading.withdraw()
-    os.system("python gui.py")
+    subprocess.Popen([sys.executable, os.path.join(SCRIPT_DIR, "gui.py")], cwd=SCRIPT_DIR)
     loading.destroy()
 
 i = 0

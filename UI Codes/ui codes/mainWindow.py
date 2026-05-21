@@ -8,10 +8,14 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
+import os
+import sys
 import subprocess
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
@@ -36,7 +40,7 @@ class Ui_Dialog(object):
 "    background-color: rgb(49, 53, 98);\n"
 "}\n"
 "")
-        self.label.setPixmap(QPixmap(u"images/resized.jpg"))
+        self.label.setPixmap(QPixmap(os.path.join(SCRIPT_DIR, "images", "resized.jpg")))
         self.pushButton = QPushButton(Dialog)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setGeometry(QRect(330, 390, 231, 41))
@@ -133,11 +137,17 @@ class Ui_Dialog(object):
 
     
     def run_quick_scan(self,Dialog):
-        subprocess.Popen(['python', 'quickScanWindow.py'])
+        subprocess.Popen(
+            [sys.executable, os.path.join(SCRIPT_DIR, "quickScanWindow.py")],
+            cwd=SCRIPT_DIR,
+        )
         Dialog.close()
-        
+
     def run_ram_booster(self,Dialog):
-        subprocess.Popen(['python', 'boosting_ram.py'])
+        subprocess.Popen(
+            [sys.executable, os.path.join(SCRIPT_DIR, "boosting_ram.py")],
+            cwd=SCRIPT_DIR,
+        )
         Dialog.close()
 
     # setupUi

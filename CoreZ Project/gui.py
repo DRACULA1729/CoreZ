@@ -1,14 +1,19 @@
-import engine 
+import os
+import engine
 from tkinter import *
 from tkinter.ttk import *
 import tkinter as tk
 #from PIL import ImageTk, Image
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+IMG_DIR = os.path.join(SCRIPT_DIR, "Images")
+
 window = Tk()
 window.geometry("900x600+220+65")
 window.title("CoreZ Advance Security")
-logo = PhotoImage(file="Images/Logo.png")
+logo = PhotoImage(file=os.path.join(IMG_DIR, "Logo.png"))
 window.iconphoto(False , logo)
-background = PhotoImage(file="Images/Frame 1.png")
+background = PhotoImage(file=os.path.join(IMG_DIR, "Frame 1.png"))
 Label_1 = Label(window,image=background)
 Label_1.place(x=0,y=0)
 window.resizable(0,0)
@@ -25,7 +30,7 @@ def openProtectionWindow():
     # sets the geometry of toplevel
     newWindow.geometry("700x500+320+115")
     newWindow.resizable(0,0)
-    logo1 = PhotoImage(file='Images/Protect.png')
+    logo1 = PhotoImage(file=os.path.join(IMG_DIR, "Protect.png"))
     newWindow.iconphoto(False,logo1)
         # Creating a label widget and placing it in the window
     Lbl1 = Label(newWindow, text="This is Protection Window", font=('Arial',14))
@@ -49,7 +54,7 @@ def openSettingWindow():
     # sets the geometry of toplevel
     newWindow.geometry("700x500+320+115") 
     newWindow.resizable(0,0)
-    logo2 = PhotoImage(file='Images/Settings.png')
+    logo2 = PhotoImage(file=os.path.join(IMG_DIR, "Settings.png"))
     newWindow.iconphoto(False,logo2)   
     Lbl1 = Label(newWindow, text="This is Settings Window", font=('Arial',14))
     lbl = tk.Button(newWindow, text="Quit", font=('Arial',14), command=newWindow.destroy).place(x=300,y=100)
@@ -69,7 +74,7 @@ def openPrivacyWindow():
     # sets the geometry of toplevel
     newWindow.geometry("700x500+320+115")
     newWindow.resizable(0,0)
-    logo3 = PhotoImage(file='Images/Privacy.png')
+    logo3 = PhotoImage(file=os.path.join(IMG_DIR, "Privacy.png"))
     newWindow.iconphoto(False,logo3)
     Lbl1 = Label(newWindow, text="This is Privacy Window", font=('Arial',14))
     lbl = tk.Button(newWindow, text="Quit", font=('Arial',14), command=newWindow.destroy).place(x=300,y=100)
@@ -89,7 +94,7 @@ def openSupportWindow():
     # sets the geometry of toplevel
     newWindow.geometry("700x500+320+115")
     newWindow.resizable(0,0)    
-    logo4 = PhotoImage(file='Images/Support.png')
+    logo4 = PhotoImage(file=os.path.join(IMG_DIR, "Support.png"))
     newWindow.iconphoto(False,logo4)
     Lbl1 = Label(newWindow, text="This is Support Window", font=('Arial',14))
     lbl = tk.Button(newWindow, text="Quit", font=('Arial',14),command=newWindow.destroy).place(x=300,y=100)
@@ -109,7 +114,7 @@ def Quickscan():
     # sets the geometry of toplevel
     newWindow.geometry("700x500+320+115")
     newWindow.resizable(0,0)
-    logo5 = PhotoImage(file='Images/Quickscan.png')
+    logo5 = PhotoImage(file=os.path.join(IMG_DIR, "Quickscan.png"))
     newWindow.iconphoto(False,logo5)
     # Creating a label widget and placing it in the window
     Lbl1 = Label(newWindow, text="Quick Scan", font=('Arial',14))
@@ -130,7 +135,7 @@ def Fullscan():
     # sets the geometry of toplevel
     newWindow.geometry("700x500+320+115")
     newWindow.resizable(0,0)
-    logo6 = PhotoImage(file='Images/Fullscan.png')
+    logo6 = PhotoImage(file=os.path.join(IMG_DIR, "Fullscan.png"))
     newWindow.iconphoto(False,logo6)
     # Creating a label widget and placing it in the window
     Lbl1 = Label(newWindow, text="Full Scan", font=('Arial',14))
@@ -151,7 +156,7 @@ def JunkCleaner():
     # sets the geometry of toplevel
     newWindow.geometry("700x500+320+115")
     newWindow.resizable(0,0)
-    logo7 = PhotoImage(file='Images/Junk.png')
+    logo7 = PhotoImage(file=os.path.join(IMG_DIR, "Junk.png"))
     newWindow.iconphoto(False,logo7)
     # Creating a label widget and placing it in the window
     Lbl1 = Label(newWindow, text="Junk Cleaner", font=('Arial',14))
@@ -171,7 +176,7 @@ def Rambooster():
     # sets the geometry of toplevel
     newWindow.geometry("700x500+320+115")
     newWindow.resizable(0,0)
-    logo8 = PhotoImage(file='Images/Rambooster.png')
+    logo8 = PhotoImage(file=os.path.join(IMG_DIR, "Rambooster.png"))
     newWindow.iconphoto(False,logo8)
     # Create a label to display the output
     output_label = Label(newWindow, text="", font=('Arial', 14))
@@ -199,9 +204,9 @@ style.configure('C.TButton', font =
                  ('Airal', 24), background='darkblue')
 style.configure('W.TButton', font = 
                 ('Helvetica', 14), background='white')
-btn1 = Button(window, text = 'Dashboard', 
+btn1 = Button(window, text = 'Dashboard',
                 style = 'W.TButton',
-                command=window)
+                command=window.lift)
 btn1.grid(row = 0, column = 3, padx = 100)
 btn1.place(x=40,y=150)
 
@@ -247,9 +252,9 @@ btn7 = Button(window, text = 'Junk Cleaner',
 btn7.grid(row = 0, column = 3, padx = 100)
 btn7.place(x=320,y=360)
 
-btn9 = Button(window, text = 'RAM Booster', 
+btn9 = Button(window, text = 'RAM Booster',
                 style = 'C.TButton',
-             command = lambda:[Rambooster(),engine.ramboost()])
+             command = Rambooster)
 btn9.grid(row = 0, column = 3, padx = 100)
 btn9.place(x=520,y=440)      
       

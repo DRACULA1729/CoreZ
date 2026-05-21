@@ -47,7 +47,8 @@ class VideoDialog(QtWidgets.QDialog):
     def __init__(self):
         super(VideoDialog, self).__init__()
         loader = QUiLoader()
-        ui_file = QtCore.QFile('C:/Users/theth/Desktop/CoreZ Project (WORKING)/UI Designs/Testwin.ui')
+        # TODO: replace placeholder with the real path to Testwin.ui
+        ui_file = QtCore.QFile('<TODO: path/to/Testwin.ui>')
         #ui_file.open(QtCore.QFile.ReadOnly)
         self.ui = loader.load(ui_file, self)
         ui_file.close()
@@ -58,7 +59,8 @@ class VideoDialog(QtWidgets.QDialog):
         # Set up the media player
         self.media_player = QMediaPlayer()
         self.media_player.setVideoOutput(self.video_widget)
-        self.media_player.setSource(QUrl.fromLocalFile("C:/Users/theth/Desktop/WhatsApp Video 2025-01-13 at 15.01.33_241f58d2.mp4"))
+        # TODO: replace placeholder with the real path to the intro video
+        self.media_player.setSource(QUrl.fromLocalFile("<TODO: path/to/intro_video.mp4>"))
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

@@ -1,18 +1,27 @@
 import hashlib
 import os
+import sys
 import psutil
-import winreg
+
+if sys.platform == "win32":
+    import winreg
+else:
+    winreg = None
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_DIR = os.path.join(SCRIPT_DIR, "Database")
 
 #global variable
-virusinfo=list(open("Database/virusinfo.txt","r").read().split('\n'))
-malware_hashes= list(open("Database/virushashe.txt","r").read().split('\n'))
-   
+with open(os.path.join(DB_DIR, "virusinfo.txt"), "r") as _f:
+    virusinfo = _f.read().splitlines()
+with open(os.path.join(DB_DIR, "Virushashe.txt"), "r") as _f:
+    malware_hashes = _f.read().splitlines()
+
 #get hash of flie
 def sha256_hashes(filename):
     with open(filename, "rb") as f:
         bytes = f.read()
         sha256hash = hashlib.sha256(bytes).hexdigest()
-        f.close()
     return sha256hash
 
 
@@ -26,7 +35,7 @@ def malware_checker(pathoffile):
         if i== hash_malware_check:
              return virusinfo[counter]
         counter += 1
-            
+
     return 0
 
 #malware detection in a folder
@@ -36,12 +45,15 @@ virusPath=[]
 #Quick Scan
 
 def quickScan(path):
+    global virusName, virusPath
+    virusName.clear()
+    virusPath.clear()
     #get the directory list
     dir_list = list()
-    for(dirpath,filenames) in os.walk(path):
-        dir_list+= [os.path.join(dirpath,file) for file in filenames] 
+    for dirpath, _dirs, filenames in os.walk(path):
+        dir_list+= [os.path.join(dirpath,file) for file in filenames]
 
-    
+
     for i in dir_list:
         if malware_checker(i) != 0:
             virusName.append(malware_checker(i)+"::File:: "+i)
@@ -53,12 +65,15 @@ def quickScan(path):
 
 
 def virusScanner(path):
+    global virusName, virusPath
+    virusName.clear()
+    virusPath.clear()
     #get the directory list
     dir_list = list()
-    for(dirpath,filenames) in os.walk(path):
-        dir_list+= [os.path.join(dirpath,file) for file in filenames] 
+    for dirpath, _dirs, filenames in os.walk(path):
+        dir_list+= [os.path.join(dirpath,file) for file in filenames]
 
-    
+
     for i in dir_list:
         if malware_checker(i) != 0:
             virusName.append(malware_checker(i)+"::File:: "+i)
@@ -80,6 +95,9 @@ def virusRemover(path):
 #RAM BOOSTER DONE
 def get_installed_software_executables():
     software_executables = []
+
+    if winreg is None:
+        return software_executables
 
     # Registry paths where installed software details are stored
     registry_paths = [
@@ -116,6 +134,16 @@ def get_installed_software_executables():
 
 
 
+def _kill_process_by_name(proc_name):
+    if sys.platform == "win32":
+        os.system("TASKKILL /IM {} /F".format(proc_name))
+        return
+    for proc in psutil.process_iter(attrs=["name"]):
+        if (proc.info.get("name") or "").lower() == proc_name.lower():
+            try:
+                proc.kill()
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                continue
 
 
 def ramboost():
@@ -131,12 +159,12 @@ def ramboost():
      if i in running_processes:
          tasklist.append(i)
 
- 
+
  for i in tasklist:
     try:
        print("Cleaning....{}".format(i))
-       os.system("TASKKILL /IM {} /F".format(i))
-       
+       _kill_process_by_name(i)
+
     except Exception as e:
         print(f"Failed to kill {i}: {e}")
  return ("Ram Boosted Sucessfully " )
@@ -144,9 +172,6 @@ def ramboost():
 
 
 
-
-
-
-
-
-quickScan("C:/Desktop")
+if __name__ == "__main__":
+    # TODO: set the directory you want to scan
+    quickScan("<TODO: set scan path>")

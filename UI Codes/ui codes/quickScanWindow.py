@@ -8,9 +8,12 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
+import os
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
@@ -26,7 +29,7 @@ class Ui_Dialog(object):
         self.label = QLabel(Dialog)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(-30, -10, 861, 551))
-        self.label.setPixmap(QPixmap(u"images/background.png"))
+        self.label.setPixmap(QPixmap(os.path.join(SCRIPT_DIR, "images", "background.png")))
         self.label_2 = QLabel(Dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(220, 120, 471, 61))
@@ -70,7 +73,6 @@ class Ui_Dialog(object):
 
 import sys
 from PySide6.QtWidgets import QApplication, QDialog, QFileDialog
-from quickScanWindow import Ui_Dialog  # Assuming the code is saved in quickScanWindow.py
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -94,7 +96,8 @@ if __name__ == "__main__":
                 # Create a QLabel dynamically if it doesn't exist
                 ui.output_label = QLabel(dialog)
                 ui.output_label.setGeometry(QRect(180, 460, 600, 30))  # Adjust position and size as needed
-                ui.output_label.setStyleSheet("color: green; font-size: 14px; font-family: sans-serif; font-weight: bold; background-color: white; border: 1px solid black; border-radius: 5px; padding: 5px; text-align: center;")
+                ui.output_label.setStyleSheet("color: green; font-size: 14px; font-family: sans-serif; font-weight: bold; background-color: white; border: 1px solid black; border-radius: 5px; padding: 5px;")
+                ui.output_label.setAlignment(Qt.AlignCenter)
             ui.output_label.setText(f"Selected directory: {directory}")
             ui.output_label.show()
     
