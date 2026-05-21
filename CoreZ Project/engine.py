@@ -17,26 +17,20 @@ with open(os.path.join(DB_DIR, "virusinfo.txt"), "r") as _f:
 with open(os.path.join(DB_DIR, "Virushashe.txt"), "r") as _f:
     malware_hashes = _f.read().splitlines()
 
-#get hash of flie
-def sha256_hashes(filename):
+# The signature DB stores 32-char MD5 digests, not SHA-256, and the two files
+# are not 1:1 (info has more lines than hashes). Pair them positionally via
+# zip() so hash -> info lookup is O(1); info entries past len(malware_hashes)
+# are unreachable in any case.
+malware_db = dict(zip(malware_hashes, virusinfo))
+
+
+def _file_md5(filename):
     with open(filename, "rb") as f:
-        bytes = f.read()
-        sha256hash = hashlib.sha256(bytes).hexdigest()
-    return sha256hash
+        return hashlib.md5(f.read()).hexdigest()
 
 
-#for malware detection
 def malware_checker(pathoffile):
-    global malware_hashes
-    global virusinfo
-    hash_malware_check= sha256_hashes(pathoffile)
-    counter=0
-    for i in malware_hashes:
-        if i== hash_malware_check:
-             return virusinfo[counter]
-        counter += 1
-
-    return 0
+    return malware_db.get(_file_md5(pathoffile), 0)
 
 #malware detection in a folder
 virusName=[]
