@@ -115,12 +115,13 @@ class CoreZApp:
         ScanWindow(self, targets, title)
 
     def _quick_targets(self):
+        # High-risk, human-scale locations only - a "quick" scan must stay quick,
+        # so we deliberately skip the system temp dir (often 100k+ files).
         home = os.path.expanduser("~")
-        import tempfile
         candidates = [
             os.path.join(home, "Downloads"),
             os.path.join(home, "Desktop"),
-            tempfile.gettempdir(),
+            os.path.join(home, "Documents"),
         ]
         return [c for c in candidates if os.path.isdir(c)] or [home]
 

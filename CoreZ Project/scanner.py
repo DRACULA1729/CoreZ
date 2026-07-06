@@ -20,6 +20,16 @@ import yara_scanner
 # Severities that warrant remediation (quarantine), vs advisory-only.
 ACTIONABLE = {"malicious", "test"}
 
+# Directories skipped during a walk: dev/package noise, caches, and CoreZ's own
+# vault. Pruning these keeps a Full Scan tractable instead of walking 100k+ cache
+# files. Malware living in these is out of scope for a hash/YARA sweep anyway.
+SKIP_DIRS = {
+    ".git", "__pycache__", "node_modules", ".venv", "venv", "env", ".env",
+    "site-packages", ".cache", ".cargo", ".npm", ".rustup", ".gradle", ".m2",
+    "quarantine_vault", "snap", ".local/share/Trash", ".mozilla", ".config/google-chrome",
+    "proc", "sys", "dev", "run",
+}
+
 
 @dataclass
 class Detection:
@@ -60,7 +70,10 @@ class Scanner:
             if os.path.isfile(target):
                 yield target
             elif os.path.isdir(target):
-                for dirpath, _dirs, filenames in os.walk(target):
+                # topdown so we can prune noise dirs in place; don't follow
+                # symlinks (avoids loops and escaping the scan root).
+                for dirpath, dirs, filenames in os.walk(target, followlinks=False):
+                    dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
                     for fn in filenames:
                         yield os.path.join(dirpath, fn)
 
