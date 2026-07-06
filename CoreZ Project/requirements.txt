@@ -1,0 +1,9 @@
+# CoreZ Antivirus - Python dependencies
+# Install:  pip install -r requirements.txt
+# Note: the GUI needs the system Tk package (Debian/Ubuntu: sudo apt install python3-tk)
+
+psutil>=5.9          # process listing / RAM booster
+yara-python>=4.3     # pattern & heuristic detection rules
+watchdog>=3.0        # real-time file-system monitoring
+Pillow>=10.0         # image assets in the tkinter GUI
+requests>=2.28       # optional VirusTotal hash lookups

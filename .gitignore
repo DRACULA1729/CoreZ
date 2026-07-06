@@ -39,3 +39,9 @@ Thumbs.db
 .env.local
 *.pem
 *.key
+
+# CoreZ runtime artifacts (never commit quarantined files, logs, or local config)
+quarantine_vault/
+*.corezq
+corez_config.json
+corez.log

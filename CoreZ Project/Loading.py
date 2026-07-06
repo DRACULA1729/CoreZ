@@ -24,8 +24,9 @@ progress.place(x=160, y=300)
 loading.overrideredirect(1)
 loading.wm_attributes("-topmost", True)
 loading.lift()
-loading.wm_attributes("-topmost", True)
-loading.wm_attributes("-disabled", True)
+# "-disabled" is a Windows-only wm attribute; guard it so the splash works on Linux/macOS.
+if sys.platform == "win32":
+    loading.wm_attributes("-disabled", True)
 
 def top():
     loading.withdraw()
